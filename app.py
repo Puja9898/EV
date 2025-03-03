@@ -1,18 +1,17 @@
-import streamlit as st
+import joblib
+import pandas as pd
 from twilio.rest import Client
 
+# 🚨 Load AI Model for Accident Detection (Optional)
+# model = joblib.load("accident_model.pkl")
+
 # 🚑 Twilio API Credentials (Replace with yours)
-TWILIO_SID = "AC8faeceda2fe455e679c8069f91093835"  # Replace with your actual Account SID
-TWILIO_TOKEN = "424f10f31f44693fa607f5209de9cef3"  # Replace with your actual Auth Token
-TWILIO_PHONE = "+15155795069"  # Replace with your Twilio phone number
+TWILIO_SID = "USae6cf7513717d9014783fc3e6bf8f184"
+TWILIO_AUTH_TOKEN = "0459793b91c805d7cfdd82141019a87d"
+TWILIO_PHONE = "+14155238886"  # Replace with your Twilio phone number
 
 # 📩 Emergency Contacts (Family, Friends)
-EMERGENCY_CONTACTS = ["+91 8978038847", "+91 9440455161"]  # Replace with actual phone numbers
-
-# 🌍 Sample Location (Instead of Google API)
-def get_sample_location():
-    lat, lon = 12.9716, 77.5946  # Example: Bangalore, India
-    return lat, lon
+EMERGENCY_CONTACTS = [ "+91 9440455161"]  # Replace with actual phone numbers
 
 # 🏥 Sample Hospital Data (Instead of Google API)
 def get_nearest_hospitals():
@@ -22,6 +21,11 @@ def get_nearest_hospitals():
         "AIIMS, Main Road"
     ]
     return hospitals
+
+# 🌍 Sample Location (Instead of Google API)
+def get_sample_location():
+    lat, lon = 12.9716, 77.5946  # Example: Bangalore, India
+    return lat, lon
 
 # 📩 Send SMS via Twilio
 def send_sms(message):
@@ -34,32 +38,35 @@ def send_sms(message):
                 from_=TWILIO_PHONE,
                 to=contact
             )
-        st.success("SOS alerts sent to emergency contacts!")
+            print(f"📩 SOS Sent to {contact}")
     except Exception as e:
-        st.error(f"Failed to send SMS: {e}")
+        print(f"Failed to send SMS: {e}")
 
 # 🚀 Accident Detection & SOS Alert
 def detect_accident():
-    # Fetch Sample Location
-    lat, lon = get_sample_location()
-    location_link = f"https://www.google.com/maps?q={lat},{lon}"
+    print("🚦 Monitoring for accidents...")
+    
+    # Simulate Accident Detection (Replace with actual logic)
+    accident_detected = True  # Set to True to simulate an accident
 
-    # Find Nearest Hospitals
-    hospitals = get_nearest_hospitals()
-    hospital_info = "\n".join(hospitals[:3]) if hospitals else "No hospitals found nearby."
+    if accident_detected:
+        print("🚨 Accident Detected!")
+        
+        # Fetch Sample Location
+        lat, lon = get_sample_location()
+        location_link = f"https://www.google.com/maps?q={lat},{lon}"
+        print("📍 Accident Location:", location_link)
 
-    # 📩 Send SOS Alert
-    sos_message = f"🚨 Emergency! An accident occurred.\n📍 Location: {location_link}\n🏥 Nearest Hospitals:\n{hospital_info}"
-    send_sms(sos_message)
+        # Find Nearest Hospitals
+        hospitals = get_nearest_hospitals()
+        hospital_info = "\n".join(hospitals[:3]) if hospitals else "No hospitals found nearby."
 
-# 🌐 Streamlit UI
-def create_ui():
-    st.title("Accident Detection & Emergency Response System")
-    st.write("Click the button below to simulate an accident and send SOS alerts.")
-
-    if st.button("🚨 Simulate Accident & Send SOS"):
-        detect_accident()
+        # 📩 Send SOS Alert
+        sos_message = f"🚨 Emergency! An accident occurred.\n📍 Location: {location_link}\n🏥 Nearest Hospitals:\n{hospital_info}"
+        send_sms(sos_message)
+    else:
+        print("✅ No Accident Detected.")
 
 # 🚀 Run System
 if __name__ == "__main__":
-    create_ui()
+    detect_accident()
