@@ -2,7 +2,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import requests
-import serial
+#import serial
 from twilio.rest import Client
 import joblib
 import numpy as np
