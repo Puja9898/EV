@@ -6,7 +6,7 @@ import serial
 from twilio.rest import Client
 
 # 🚨 Load AI Model for Accident Detection
-model = joblib.load("accident_model.pkl")
+model = joblib.load("accident_model.py")
 
 # 🚑 Twilio API Credentials (Replace with yours)
  
