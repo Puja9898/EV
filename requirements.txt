@@ -3,3 +3,4 @@ twilio
 joblib
 pandas
 numpy
+serial
